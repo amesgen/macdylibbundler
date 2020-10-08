@@ -211,6 +211,7 @@ void collectDependencies(std::string filename)
 
         // trim useless info, keep only library name
         std::string dep_path = lines[n].substr(1, lines[n].rfind(" (") - 1);
+        if (Settings::isSystemLibrary(dep_path)) continue;
         if (isRpath(dep_path))
         {
             collectRpathsForFilename(filename);
@@ -219,6 +220,7 @@ void collectDependencies(std::string filename)
         addDependency(dep_path);
     }
 }
+
 void collectSubDependencies()
 {
     // print status to user
@@ -248,6 +250,7 @@ void collectSubDependencies()
                 
                 // trim useless info, keep only library name
                 std::string dep_path = lines[n].substr(1, lines[n].rfind(" (") - 1);
+                if (Settings::isSystemLibrary(dep_path)) continue;
                 if (isRpath(dep_path))
                 {
                     collectRpathsForFilename(searchFilenameInRpaths(dep_path));
